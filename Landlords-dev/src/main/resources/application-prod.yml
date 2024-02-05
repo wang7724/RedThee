@@ -1,0 +1,14 @@
+server:
+  port: 8085
+
+database:
+  engine: MySQL
+  url: jdbc:mysql://localhost:3306/landlords?serverTimezone=GMT
+  username: root
+  password: 123456
+
+landlords:
+#  frontend-host: landlords.pushyzheng.com
+  frontend-host: 127.0.0.1:8080
+  jwt-secret: 298b8610-6835-4d12-b8ae-efba3dbcccad
+  max-seconds-for-every-round: 30
