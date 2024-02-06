@@ -47,7 +47,7 @@ public class RoomComponentTest {
 
     @Test
     public void joinRoom() {
-        User user1 = mockUser(), user2 = mockUser(), user3 = mockUser();
+        User user1 = mockUser(), user2 = mockUser(), user3 = mockUser(), user4 = mockUser(), user5 = mockUser()  ;
         String title = "test";
         String pwd = "123";
 
@@ -71,14 +71,40 @@ public class RoomComponentTest {
         Assertions.assertTrue(users.contains(user2.getId()));
 
         Assertions.assertEquals(SUCCESS, roomComponent.joinRoom(room.getId(), user3, pwd));
-        // 房间任务为 3 人
+        // 房间人物为 3 人
         Assertions.assertEquals(3, room.getPlayerList().size());
-        // 两个用户成功加入
+        // 三个用户成功加入
         users = room.getPlayerList().stream().map(p -> p.getUser().getId())
                 .collect(Collectors.toSet());
         Assertions.assertTrue(users.contains(user3.getId()));
 
-        // 第四个玩家加入失败
+        // 玩家 4 加入房间成功
+        Assert.assertEquals(SUCCESS, roomComponent.joinRoom(room.getId(), user4, pwd));
+        // 房间任务为 4 人
+        Assertions.assertEquals(4, room.getPlayerList().size());
+        // 4个用户成功加入
+         users = room.getPlayerList().stream().map(p -> p.getUser().getId())
+                .collect(Collectors.toSet());
+        Assertions.assertTrue(users.contains(user1.getId()));
+        Assertions.assertTrue(users.contains(user2.getId()));
+        Assertions.assertTrue(users.contains(user3.getId()));
+        Assertions.assertTrue(users.contains(user4.getId()));
+
+
+        // 玩家 5 加入房间成功
+        Assert.assertEquals(SUCCESS, roomComponent.joinRoom(room.getId(), user5, pwd));
+        // 房间任务为 5 人
+        Assertions.assertEquals(5, room.getPlayerList().size());
+        // 4个用户成功加入
+        users = room.getPlayerList().stream().map(p -> p.getUser().getId())
+                .collect(Collectors.toSet());
+        Assertions.assertTrue(users.contains(user1.getId()));
+        Assertions.assertTrue(users.contains(user2.getId()));
+        Assertions.assertTrue(users.contains(user3.getId()));
+        Assertions.assertTrue(users.contains(user4.getId()));
+        Assertions.assertTrue(users.contains(user5.getId()));
+
+        // 第六个玩家加入失败
         Assertions.assertThrows(ForbiddenException.class, () -> roomComponent.joinRoom(room.getId(), mockUser(), pwd));
     }
 

@@ -237,8 +237,13 @@ public class Room {
         return player.getUser();
     }
 
+
+    /**
+     * 控制房间人数
+     * todo 做成可变类型，默认为5，可由前端更改
+     */
     public boolean isAllReady() {
-        if (getPlayerList().size() != 3) {
+        if (getPlayerList().size() != 5) {
             return false;
         }
         for (Player player : getPlayerList()) {

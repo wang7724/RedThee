@@ -76,7 +76,7 @@ public class RoomComponent {
             throw new ForbiddenException("您已经加入此房间，无法重复加入");
         }
         //检查房间中人数是否小于三人
-        if (room.getPlayerList().size() >= 3) {
+        if (room.getPlayerList().size() >= 5) {
             //房间人数大于三人不能加入,返回消息
             throw new ForbiddenException("该房间已满，请寻找其他房间!");
         }
@@ -92,20 +92,54 @@ public class RoomComponent {
             Player player0 = playerlist.get(0);
             int id0 = player0.getId();
             idList.add(id0);
-        } else {
+        } else if (playerlist.size() == 2) {
+            Player player0 = playerlist.get(0);
+            int id0 = player0.getId();
+            idList.add(id0);
+
+            Player player1 = playerlist.get(1);
+            int id1 = player1.getId();
+            idList.add(id1);
+
+        }else if (playerlist.size() == 3) {
+            Player player0 = playerlist.get(0);
+            int id0 = player0.getId();
+            idList.add(id0);
+
+            Player player1 = playerlist.get(1);
+            int id1 = player1.getId();
+            idList.add(id1);
+
+            Player player2 = playerlist.get(2);
+            int id2 = player2.getId();
+            idList.add(id2);
+
+        }
+        else {
             Player player0 = playerlist.get(0);
             Player player1 = playerlist.get(1);
+            Player player2 = playerlist.get(2);
+            Player player3 = playerlist.get(3);
             int id0 = player0.getId();
             int id1 = player1.getId();
+            int id2 = player2.getId();
+            int id3 = player3.getId();
+
             idList.add(id0);
             idList.add(id1);
+            idList.add(id2);
+            idList.add(id3);
         }
         if (!idList.contains(1)) {
             player.setId(1);
         } else if (!idList.contains(2)) {
             player.setId(2);
-        } else {
+        } else if(!idList.contains(3)){
             player.setId(3);
+        }else if(!idList.contains(4)){
+            player.setId(4);
+        }else {
+            player.setId(5);
         }
         player.setUser(user);
         room.getUserList().add(user);
