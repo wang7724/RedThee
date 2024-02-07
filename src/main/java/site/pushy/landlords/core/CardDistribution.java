@@ -1,7 +1,11 @@
 package site.pushy.landlords.core;
 
+import lombok.Getter;
+import site.pushy.landlords.common.config.properties.LandlordsProperties;
+import site.pushy.landlords.common.config.properties.PlayerNumProperties;
 import site.pushy.landlords.pojo.Card;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -11,6 +15,9 @@ import java.util.*;
  * @since 2018/12/30 21:49
  */
 public class CardDistribution {
+
+    @Resource
+    private PlayerNumProperties properties;
 
     /**
      * 所有牌
@@ -33,8 +40,24 @@ public class CardDistribution {
     private final List<Card> player3Cards = new ArrayList<>();
 
     /**
-     * 底牌
+     * 玩家 4 的牌
      */
+    private final List<Card> player4Cards = new ArrayList<>();
+
+    /**
+     * 玩家 5 的牌
+     */
+    private final List<Card> player5Cards = new ArrayList<>();
+
+    /**
+     * 底牌
+     * -- GETTER --
+     *  获得地主的三张牌
+     *
+     *  设为0
+
+     */
+    @Getter
     private List<Card> topCards = new ArrayList<>();
 
     public CardDistribution() {
@@ -70,6 +93,8 @@ public class CardDistribution {
         player1Cards.clear();
         player2Cards.clear();
         player3Cards.clear();
+        player4Cards.clear();
+        player5Cards.clear();
         topCards.clear();
     }
 
@@ -84,38 +109,47 @@ public class CardDistribution {
 
     /**
      * 分牌
+     * todo 开始游戏后，赢家先得牌。 获取winner
      */
     private void deal() {
-        /* 分派给1号玩家17张牌 */
-        for (int i = 0; i < 17; i++) {
-            Card card = allCardList.get(i * 3);
+        /* 分派给1号玩家11张牌 */
+        for (int i = 0; i < 11; i++) {
+            Card card = allCardList.get(i * properties.getPlayNum());
             player1Cards.add(card);
         }
-        /* 分派给2号玩家17张牌 */
-        for (int i = 0; i < 17; i++) {
-            Card card = allCardList.get(i * 3 + 1);
+        /* 分派给2号玩家11张牌 */
+        for (int i = 0; i < 11; i++) {
+            Card card = allCardList.get(i * properties.getPlayNum() + 1);
             player2Cards.add(card);
         }
-        /* 分派给3号玩家17张牌 */
-        for (int i = 0; i < 17; i++) {
-            Card card = allCardList.get(i * 3 + 2);
+        /* 分派给3号玩家11张牌 */
+        for (int i = 0; i < 11; i++) {
+            Card card = allCardList.get(i * properties.getPlayNum() + 2);
             player3Cards.add(card);
         }
 
-        /* 将剩余的三张牌添加到地主的牌当中 */
-        topCards = allCardList.subList(51, 54);
+        /* 分派给4号玩家11张牌 */
+        for (int i = 0; i < 11; i++) {
+            Card card = allCardList.get(i* properties.getPlayNum() + 3);
+            player3Cards.add(card);
+        }
+
+        /* 分派给5号玩家10张牌 */
+        for (int i = 0; i < 10; i++) {
+            Card card = allCardList.get(i* properties.getPlayNum() + 4);
+            player3Cards.add(card);
+        }
+
+//        /* 将剩余的三张牌添加到地主的牌当中 */
+//        topCards = allCardList.subList(51, 54);
 
         /* 将玩家的牌通过等级由小到大的排序 */
         Collections.sort(player1Cards);
         Collections.sort(player2Cards);
         Collections.sort(player3Cards);
-    }
+        Collections.sort(player4Cards);
+        Collections.sort(player5Cards);
 
-    /**
-     * 获得地主的三张牌
-     */
-    public List<Card> getTopCards() {
-        return topCards;
     }
 
     /**
@@ -131,6 +165,10 @@ public class CardDistribution {
                 return player2Cards;
             case 3:
                 return player3Cards;
+            case 4:
+                return player4Cards;
+            case 5:
+                return player5Cards;
         }
         return null;
     }

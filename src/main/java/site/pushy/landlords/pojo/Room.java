@@ -187,9 +187,10 @@ public class Room {
 
     /**
      * 当前出牌的玩家
+     * todo: 当一个玩家出完牌后，继续游戏
      */
     public int getCurrentPlayerId() {
-        int r = getStepNum() / 3;
+        int r = getStepNum() / 3;  // 是否应该为取余
         return r == 0 ? 3 : r;
     }
 

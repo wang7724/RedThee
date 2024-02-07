@@ -1,6 +1,8 @@
 server:
   port: 9090
 
+player:
+  num: 5
 #前端的默认端口
 #const defaultDomain = "localhost:9090";
 
